@@ -10,6 +10,9 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
+    // userRequest를 user로 변환
     User toEntity(UserRequest request);
+
+    // user를 userResponse로 변환
     UserResponse toResponse(User user);
 }
