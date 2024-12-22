@@ -1,18 +1,28 @@
 package com.example.lgtmjavademo.controller;
 
 
-import com.example.lgtmjavademo.dto.UserDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.lgtmjavademo.dto.request.UserRequest;
+import com.example.lgtmjavademo.dto.response.UserResponse;
+import com.example.lgtmjavademo.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    @GetMapping("/user")
-    public UserDto getUser(@RequestParam String name, @RequestParam int age) {
-        return new UserDto(name, age);
+    private final UserService userService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
+        return ResponseEntity.ok(userService.createUser(userRequest));
     }
 }
